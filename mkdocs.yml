@@ -1,7 +1,11 @@
 site_name: Industrial Training Daily Diary
 site_description: Week-by-week record of six months of industrial training (Jan–Jun 2026)
 site_author: Ritik Mehta
+site_url: https://ritik322.github.io/tr104/
 copyright: Copyright &copy; 2026 Ritik Mehta
+
+repo_url: https://github.com/ritik322/tr104
+repo_name: ritik322/tr104
 
 theme:
   name: material
