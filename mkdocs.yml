@@ -1,0 +1,101 @@
+site_name: Industrial Training Daily Diary
+site_description: Week-by-week record of six months of industrial training (Jan–Jun 2026)
+site_author: Ritik Mehta
+copyright: Copyright &copy; 2026 Ritik Mehta
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tooltips
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - 75Way Technologies:
+      - Overview: phase-1-75way/overview.md
+      - Week 1: phase-1-75way/week-01.md
+      - Week 2: phase-1-75way/week-02.md
+      - Week 3: phase-1-75way/week-03.md
+      - Week 4: phase-1-75way/week-04.md
+      - Week 5: phase-1-75way/week-05.md
+      - Week 6: phase-1-75way/week-06.md
+      - Week 7: phase-1-75way/week-07.md
+      - Week 8: phase-1-75way/week-08.md
+      - Week 9: phase-1-75way/week-09.md
+      - Week 10: phase-1-75way/week-10.md
+      - Week 11: phase-1-75way/week-11.md
+      - Week 12: phase-1-75way/week-12.md
+      - Week 13: phase-1-75way/week-13.md
+      - Week 14: phase-1-75way/week-14.md
+      - Week 15: phase-1-75way/week-15.md
+      - Week 16: phase-1-75way/week-16.md
+  - GNDEC TnP Cell:
+      - Overview: phase-2-gndec/overview.md
+      - Week 17: phase-2-gndec/week-17.md
+      - Week 18: phase-2-gndec/week-18.md
+      - Week 19: phase-2-gndec/week-19.md
+      - Week 20: phase-2-gndec/week-20.md
+      - Week 21: phase-2-gndec/week-21.md
+      - Week 22: phase-2-gndec/week-22.md
