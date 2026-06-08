@@ -9,10 +9,10 @@ Guru Nanak Dev Engineering College, Ludhiana
 
 ## Training Period
 
-5 January 2026 to 5 June 2026 (six months total), divided into two parts:
+5 January 2026 to 5 June 2026 (five months total), divided into two parts:
 
-- **75Way Technologies, Mohali:** Four-month industrial internship.
-- **GNDEC TnP Cell, Ludhiana:** Six-week on-campus training.
+- **75Way Technologies, Mohali:** ~3.5-month industrial internship (5 Jan – 15 Apr 2026).
+- **GNDEC TnP Cell, Ludhiana:** ~7-week on-campus training (20 Apr – 5 Jun 2026).
 
 ## Projects Delivered
 

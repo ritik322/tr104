@@ -1,6 +1,6 @@
-# Week 15 — Activity Logs and Cross-Module Integration
+# Week 15 — Final Handover and Internship Wrap-up
 
-**Dates:** 13 April – 17 April 2026
+**Dates:** 13 April – 15 April 2026
 **Location:** 75Way Technologies, Mohali
 **Project:** Manage Business
 
@@ -8,18 +8,18 @@
 
 ## Tasks Done
 
-- Shifted focus for the week from owned modules to contributing across the Activity Logs module, which was primarily owned by another team member but required several integration touch-points with the Access Control and Subscription modules built earlier.
-- Reviewed the existing Activity Logs collection and the helper utility used by other modules to record audit entries, and understood the standard log shape consisting of actor, action key, target resource, project context, and timestamp.
-- Added structured Activity Log entries from the Subscription module for every lifecycle event of a subscription, including creation, scope update, expiry adjustment, and revocation, with the structured access scope recorded in the log payload for full traceability.
-- Extended the Activity Logs viewer screen with two new filter dropdowns for filtering by Subscription-related actions and for filtering by the granter project, both of which were natural extensions of the existing filter interface.
-- Worked with the developer who owned the Activity Logs module to agree on a stable set of action key constants used across the platform, and consolidated all the duplicated string literals into a single shared constants file imported by every module that recorded logs.
-- Picked up a small ticket on the Authentication module to record login and signup events into the Activity Logs collection consistently, since the existing implementation only recorded one of the two events.
-- Contributed code review comments on three pull requests raised by other team members during the week, including suggestions for tighter validation, clearer error messages, and one case where a new endpoint had not been wired through the Access Control helper.
-- Spent two days on end-to-end integration testing across the User Management, Access Control, Subscription, and Activity Logs modules, walking through realistic administrator workflows to confirm that data flowed correctly between modules and that audit entries were created at every expected step.
-- Found and fixed two small bugs during integration testing, one where a soft-deleted user remained visible in the autocomplete on the subscription create flow, and another where revoking a subscription did not invalidate the cached permission state for the affected user.
-- Helped the team prepare a short demo for the client at the end of the week showing the complete delegation flow, the admin role management screen, and the activity logs view filtered by recent subscription changes.
-- Joined the demo call along with the project lead and the senior developer, presented the Subscription module work, walked the client through the delegation API and the safeguards built into it, and answered the client's questions on extensibility.
-- Captured the client's feedback from the demo and added the requested follow-up items to the team's backlog for the final sprint, which included a richer audit log filter and an export-to-CSV option for the activity log screen.
+- Entered the final and shortened week of the internship at 75Way Technologies with the goal of completing the follow-up items from the previous week's work, freezing the codebase for handover, and finishing the personal exit formalities within the available three working days.
+- Picked up the remaining backlog items raised by the client, namely a richer filter on the Activity Logs viewer and an export-to-CSV option for the activity log screen, both scoped tightly to fit within the wrap-up window.
+- Implemented the richer Activity Logs filter, adding date-range filtering, multi-select filtering on the action key, and a free-text search across the target resource field, all wired through the shared filter component already used elsewhere in the platform.
+- Built the export-to-CSV option using a small server-side helper that streamed the matching rows directly to the response without holding the entire result set in memory, keeping the export responsive even on larger date ranges.
+- Wrote a short module-level README for the Subscription module summarising the schema, the endpoint surface, the inter-project delegation flow, and the safeguards built into the design, intended as the primary reference for whoever maintained the module after handover.
+- Updated the in-repo design notes for the Access Control module with the integration points added during the Subscription and Activity Logs work, so that the documentation remained consistent with the current state of the codebase.
+- Walked through the Subscription and Access Control modules in detail with the project lead during a recorded handover session, covering the schema decisions, the helper utility, the delegation flow, and the known limitations left for future iterations.
+- Walked through the same modules with the other two team members in a separate informal session, focusing on day-to-day operations of the code so that they could continue iterating on the module after the internship ended.
+- Performed a final round of manual regression testing across the platform, walking through the major administrator workflows one last time to confirm that no regressions had been introduced by the final week's changes.
+- Raised the final pull request of the internship covering the activity log filter and CSV export, got it reviewed and merged by the project lead, and confirmed that the staging deployment reflected the changes correctly.
+- Completed the personal exit formalities including the return of the workstation, the deactivation of the company accounts, the collection of the internship completion certificate, and the closing conversation with the HR team.
+- Attended an informal farewell with the project lead, the senior developer, and the two co-interns on the last day, marking the end of the industrial internship at 75Way Technologies, Mohali.
 
 ---
 
@@ -28,21 +28,21 @@
 - Next.js (App Router) with API route handlers
 - React 18 with functional components and hooks
 - MongoDB via the Mongoose ODM
-- Activity Logs collection with shared action key constants
-- Custom Access Control helper module (`lib/access.js`)
+- Custom server-side CSV streaming helper
 - Tailwind CSS for the admin UI
+- Markdown for module READMEs and design notes
 - Postman for endpoint verification
 - Git feature branches and GitHub pull requests
-- Browser-based screen sharing for the client demo
+- Staging deployment for final verification
 
 ---
 
 ## Learnings
 
-- Realised that contributing across a module owned by someone else is a different exercise from owning a module, because the priority shifts to respecting existing conventions rather than imposing new ones.
-- Understood the practical importance of consolidating duplicated string literals into a single constants file, because every duplicated literal in a logging system eventually leads to a subtle inconsistency that is painful to debug across collections of audit entries.
-- Picked up the value of explicit end-to-end integration testing as a planned activity at the end of a development cycle, because individual modules can each pass their own checks while still failing to cooperate correctly at the boundary points.
-- Learned that the second category of bugs found during integration testing is almost always around cache invalidation across modules, which mirrors the well-known observation that cache invalidation is one of the hardest problems in software.
-- Got first-hand experience of how meaningful a code review comment becomes when it is grounded in an architectural principle (such as the rule that all routes must use the Access Control helper) rather than a stylistic preference.
-- Realised that participating in a client demo is a fundamentally different experience from the development cycle, because the client's questions reveal which features they consider valuable and which assumptions they had made differently from the team.
-- Observed that the most useful preparation for a client demo is not the polish of the slides but the team's ability to handle unexpected questions confidently, which depends entirely on the team's depth of familiarity with the code.
+- Realised that the final days of an internship are best treated as a separate phase of work focused on closure rather than new feature development, because the value of a smooth handover often exceeds the value of one more shipped feature.
+- Understood the practical importance of writing module-level READMEs at the end of an ownership cycle, because the developer leaving the module is the one with the clearest mental model of its design and is therefore the best person to capture that knowledge in writing.
+- Picked up the technique of streaming responses for export endpoints rather than building the full payload in memory, because the difference is invisible at small data sizes but becomes the deciding factor between a working and a broken export at larger sizes.
+- Learned that a recorded handover session combined with an informal walkthrough with peers is a more effective knowledge transfer than either alone, because the recorded session captures the formal design while the informal walkthrough surfaces the day-to-day tacit knowledge.
+- Got first-hand experience of how an internship concludes when the work has been carried out genuinely, namely with a clear sense of the modules owned, the contributions made, and the gaps that remained for the next iteration.
+- Realised that the relationships built with the project lead, the senior developer, and the co-interns over more than three months are themselves a valuable outcome of the internship, independent of the code shipped.
+- Observed that the multi-stack training in the first two months, although it occasionally felt disconnected from the final project work, ended up being directly useful because the breadth of exposure shaped how design decisions were considered during the project phase.

@@ -1,6 +1,6 @@
 # 75Way Technologies, Mohali
 
-**Duration:** 5 January 2026 – 24 April 2026 (~16 weeks)
+**Duration:** 5 January 2026 – 15 April 2026 (~15 weeks)
 **Role:** Software Development Engineer Intern
 **Team Size:** 3 members (project part)
 **Methodology:** Agile with weekly stand-ups and GitHub PR-based code reviews
@@ -9,7 +9,7 @@
 
 ## Structure
 
-The four-month internship at 75Way Technologies, Mohali was organised into two clearly demarcated parts.
+The ~3.5-month internship at 75Way Technologies, Mohali was organised into two clearly demarcated parts.
 
 ### Multi-stack Training (Weeks 1–8)
 
@@ -19,9 +19,9 @@ The training followed a classroom-style format, with each technology covered thr
 
 **Technologies covered:** Python, Django, FastAPI, MongoDB, Express, React, Node.js, MERN stack integration, Flutter, Dart, React Native.
 
-### Manage Business Platform (Weeks 9–16)
+### Manage Business Platform (Weeks 9–15)
 
-After successful completion of the training and evaluation, the remaining two months were spent contributing to the **Manage Business** platform, a production-grade centralized authentication and user management system delivered to a client of 75Way Technologies.
+After successful completion of the training and evaluation, the remaining ~1.5 months were spent contributing to the **Manage Business** platform, a production-grade centralized authentication and user management system delivered to a client of 75Way Technologies.
 
 The platform provides a unified identity, access, logging, and subscription management layer integrated into multiple internal products of the client organization. Development followed an Agile workflow within a three-member team with weekly sprint planning, stand-up meetings, retrospectives, and GitHub pull request-based code reviews enforced before any merge to the main branch.
 
@@ -56,7 +56,6 @@ The platform provides a unified identity, access, logging, and subscription mana
 | Week 12 | 23 Mar – 27 Mar 2026 | Access Control module |
 | Week 13 | 30 Mar – 3 Apr 2026 | Subscription module foundations |
 | Week 14 | 6 Apr – 10 Apr 2026 | Subscription UI and inter-project access delegation |
-| Week 15 | 13 Apr – 17 Apr 2026 | Activity Logs and cross-module integration |
-| Week 16 | 20 Apr – 24 Apr 2026 | Final sprint, handover, and internship wrap-up |
+| Week 15 | 13 Apr – 15 Apr 2026 | Final handover and internship wrap-up |
 
 Individual week pages will be added to the left navigation as they are filled in.

@@ -1,49 +1,49 @@
-# Week 18 — Plugin Completion and Deployment
+# Week 18 — TnP Portal Kick-off and Schema Design
 
 **Dates:** 4 May – 8 May 2026
 **Location:** GNDEC Training and Placement Cell, Ludhiana
-**Project:** Training Letter Management Plugin
+**Project:** Training and Placement Portal
 
 ---
 
 ## Tasks Done
 
-- Continued the Training Letter Plugin work with the goal of completing all four role-specific dashboards, the dual-approval state machine, the reference number generation, and the file security gatekeeper, followed by deployment to the GNDEC Moodle instance by the end of the week.
-- Built the Student Dashboard inside `request.php`, combining a Moodle Form API application form with a tracking table of the logged-in student's historical requests, including color-coded status badges for both the initial request status and the confirmation letter status.
-- Built the Teacher Dashboard inside `approve.php` with department-scoped visibility enforced at the database query level, a responsive CSS Grid-based multi-parameter filter system, statistical counter cards summarising pending, approved, and rejected requests, and one-click quick-action buttons embedded in the table view for direct approval and rejection.
-- Built the Manager Dashboard inside `manage.php` as a tabbed interface with a global request management tab and separate CRUD tabs for Courses, Departments, and Batches, including Moodle's autocomplete component for the many-to-many teacher-department assignment screen.
-- Built the Site Admin Setup screen inside `admin.php`, restricted strictly to Moodle site administrators through Moodle's native capability check, using Moodle's AJAX user selector for adding and removing manager-role users from the `local_tl_managers` table.
-- Implemented the reference number generation logic to fire on the initial request approval action, producing reference numbers in the format `GNDEC/[YEAR]/[ID]` where the year is the current calendar year and the ID is the auto-incremented primary key of the request record.
-- Implemented the dual-approval state machine across both `status` (initial request) and `conf_status` (confirmation letter) fields on the request table, enforcing all valid transitions at the database update layer rather than only in the UI, and blocking invalid transitions such as uploading a confirmation letter before the initial request approval.
-- Implemented the file security gatekeeper as the function `local_training_letter_pluginfile()`, which Moodle invokes for every file access request, with strict checks that the requesting user is either the owner of the uploaded confirmation letter or an authorised teacher mapped to the relevant department.
-- Walked through all four dashboards end to end with the TnP coordinator, demonstrated each role's workflow with realistic test data seeded into the local database, and incorporated several small UX refinements based on the coordinator's feedback.
-- Packaged the plugin into a distributable zip archive, deployed it to the GNDEC Moodle staging environment, and ran the install step under the Moodle site administrator account to confirm that the install process worked cleanly on the production-grade Moodle instance.
-- Performed an end-to-end verification on the staging environment with three test accounts (a student, a teacher, and a manager), confirming that the role resolution worked correctly, the dashboards loaded as expected, and the dual-approval state machine behaved identically to the local environment.
-- Deployed the plugin to the production GNDEC Moodle instance after the staging verification, ran the install step, and confirmed with the TnP coordinator that the plugin was now visible and usable by the intended user roles.
+- Transitioned from the Training Letter Plugin work to the second and primary deliverable of the on-campus phase, namely the Training and Placement Portal, which would replace the existing manual Google Forms-based placement workflow at the cell.
+- Spent the first day with the TnP coordinator gathering detailed requirements for the portal, capturing the complete lifecycle of a typical placement drive from announcement, through student application, round-by-round candidate tracking, to shortlist generation and selection.
+- Documented the three user roles that the portal would serve (Administrator, Recruiter, Student) along with the operations available to each, and identified the specific pain points in the existing manual workflow that the portal needed to address explicitly.
+- Confirmed the technology stack with the coordinator and the senior faculty supervisor, settling on Next.js 16 with the App Router as the full-stack framework, PostgreSQL as the relational database, Prisma as the type-safe ORM, NextAuth.js for authentication with a JWT-based session strategy, bcrypt for password hashing, and a combination of Material UI and Tailwind CSS for the user interface.
+- Set up the Next.js project on the assigned workstation using the latest stable version, configured the App Router directory structure, installed and initialised Prisma, and connected it to a local PostgreSQL instance for development.
+- Designed the relational schema on paper before any code, sketching out seven primary tables: User, Student, Company, Drive, Round, Application, and Post, along with their fields, primary keys, unique constraints, foreign keys, and the relationships between them.
+- Made several deliberate schema decisions during the design exercise, including the composite primary key on the Application table to prevent duplicate applications at the database level, the array column for branches on the Drive table to support multi-branch eligibility, and the soft-delete pattern using `deletedAt` timestamps on the User, Student, and Company tables.
+- Translated the schema into the Prisma schema file using the Prisma Schema Definition Language, took advantage of Prisma's enum support for the User role discriminator, and ran the initial Prisma migration to create the corresponding tables in the development database.
+- Configured NextAuth.js with the credentials provider and a custom `authorize` callback that validated submitted credentials against the User table using bcrypt for password comparison, and implemented the `jwt` and `session` callbacks to embed the role and identity in the session token.
+- Built the unified login screen as a single page accessible to all three user roles, with the server-side redirect after login routing the user to the appropriate dashboard (`/admin`, `/recruiter`, or `/student`) based on the role in their session.
+- Implemented the student registration flow, including server-side validation of the email and password fields, automatic creation of the corresponding User record with the `student` role, and a redirect to the profile creation screen on successful signup.
+- Set up the initial layout structure for each of the three role-based dashboards, with role-specific sidebar navigation defined and the layout-level redirect logic in place to prevent cross-role access at the page level.
 
 ---
 
 ## Technologies Used
 
-- Moodle LMS local plugin architecture
-- PHP 8 with the Intelephense extension in Visual Studio Code
-- MySQL via Moodle's `$DB` abstraction layer with prepared statements
-- Moodle Form API (`moodleform`) for all submission forms
-- Moodle File API with the custom `local_training_letter_pluginfile()` gatekeeper
-- Moodle's AJAX user selector for the Site Admin setup screen
-- Moodle's autocomplete component for the teacher-department assignment
-- Moodle's `hideIf()` form logic for dynamic field reveals
-- HTML and CSS Grid for responsive dashboard layouts
-- Git and GitHub for version control of the plugin source
+- Next.js 16 with the App Router
+- React 18 with Server and Client Components
+- PostgreSQL (local instance for development)
+- Prisma ORM with the Prisma Schema Definition Language
+- NextAuth.js with credentials provider and JWT session strategy
+- bcrypt with 10 salt rounds for password hashing
+- Material UI and Tailwind CSS for the user interface
+- Visual Studio Code with the Prisma, ESLint, Prettier, and Tailwind CSS IntelliSense extensions
+- Git and GitHub for version control
+- Postman for endpoint verification
 
 ---
 
 ## Learnings
 
-- Realised that completing all four role dashboards in a single sprint week was achievable only because the role resolution function and the schema had been built carefully in the previous week, which validated the principle of investing in foundations before features.
-- Understood the practical importance of enforcing state machine transitions at the database update layer rather than only in the UI, because the UI layer can always be bypassed by anyone with direct access to the API, and the database is the only place where the invariant truly holds.
-- Picked up the value of the file security gatekeeper as a non-negotiable layer in any file-upload feature, because without it the uploaded files would be served by Moodle to anyone who could guess or enumerate the file URLs.
-- Learned that the auto-generation of reference numbers in a fixed format gives the cell a stable institutional identifier that can be quoted in official communication, which is one of the operational benefits of digitising the workflow that the coordinator valued highly.
-- Got first-hand experience of how the cycle of local development, staging deployment, and production deployment surfaces environment-specific issues that are invisible during local-only testing, particularly around file paths, permissions, and Moodle version compatibility.
-- Realised that walking through the dashboards with the actual end user (the TnP coordinator) revealed several small UX issues that would have been missed in self-review, because the end user thinks about the workflow in operational terms rather than technical ones.
-- Observed that deploying a working version of the plugin to production within two weeks of the initial site visit demonstrated the practical value of Moodle's local plugin architecture, because the same scope on a custom-built platform would have taken significantly longer.
+- Realised that the requirements conversation with the TnP coordinator was the single most important input into the portal's design, because the coordinator's deep familiarity with the existing process surfaced operational details that would not have been visible from outside.
+- Understood the practical value of designing the relational schema on paper before writing any Prisma code, because the act of sketching exposed several constraint relationships (such as the composite primary key on Application) that would have been missed in a code-first approach.
+- Picked up the importance of choosing the soft-delete pattern early in the project rather than retrofitting it later, because every related query and every audit log would otherwise need to be revisited to handle the new pattern correctly.
+- Learned that Prisma's enum support combined with its auto-generated TypeScript types provides genuine compile-time safety for role-based logic, which directly translated into fewer category-of-bugs from misspelled role identifiers later in the codebase.
+- Got first-hand experience of how NextAuth.js's custom `authorize` callback is the right place to enforce authentication-specific business rules, because every login attempt across the entire portal flows through it exactly once.
+- Realised that role-based redirection at the layout level is a cleaner pattern than checking roles inside individual pages, because the layout is the natural choke point that all pages within a role's section share.
+- Observed that the experience of working on the custom NextAuth.js setup for the Manage Business platform at 75Way translated directly into the configuration of NextAuth.js for the TnP Portal, validating the cross-project value of the earlier ownership work.

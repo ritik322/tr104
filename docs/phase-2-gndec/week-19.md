@@ -1,4 +1,4 @@
-# Week 19 — TnP Portal Kick-off and Schema Design
+# Week 19 — Student Profile and Administrator Student Management
 
 **Dates:** 11 May – 15 May 2026
 **Location:** GNDEC Training and Placement Cell, Ludhiana
@@ -8,42 +8,41 @@
 
 ## Tasks Done
 
-- Transitioned from the Training Letter Plugin work to the second and primary deliverable of the on-campus phase, namely the Training and Placement Portal, which would replace the existing manual Google Forms-based placement workflow at the cell.
-- Spent the first day with the TnP coordinator gathering detailed requirements for the portal, capturing the complete lifecycle of a typical placement drive from announcement, through student application, round-by-round candidate tracking, to shortlist generation and selection.
-- Documented the three user roles that the portal would serve (Administrator, Recruiter, Student) along with the operations available to each, and identified the specific pain points in the existing manual workflow that the portal needed to address explicitly.
-- Confirmed the technology stack with the coordinator and the senior faculty supervisor, settling on Next.js 16 with the App Router as the full-stack framework, PostgreSQL as the relational database, Prisma as the type-safe ORM, NextAuth.js for authentication with a JWT-based session strategy, bcrypt for password hashing, and a combination of Material UI and Tailwind CSS for the user interface.
-- Set up the Next.js project on the assigned workstation using the latest stable version, configured the App Router directory structure, installed and initialised Prisma, and connected it to a local PostgreSQL instance for development.
-- Designed the relational schema on paper before any code, sketching out seven primary tables: User, Student, Company, Drive, Round, Application, and Post, along with their fields, primary keys, unique constraints, foreign keys, and the relationships between them.
-- Made several deliberate schema decisions during the design exercise, including the composite primary key on the Application table to prevent duplicate applications at the database level, the array column for branches on the Drive table to support multi-branch eligibility, and the soft-delete pattern using `deletedAt` timestamps on the User, Student, and Company tables.
-- Translated the schema into the Prisma schema file using the Prisma Schema Definition Language, took advantage of Prisma's enum support for the User role discriminator, and ran the initial Prisma migration to create the corresponding tables in the development database.
-- Configured NextAuth.js with the credentials provider and a custom `authorize` callback that validated submitted credentials against the User table using bcrypt for password comparison, and implemented the `jwt` and `session` callbacks to embed the role and identity in the session token.
-- Built the unified login screen as a single page accessible to all three user roles, with the server-side redirect after login routing the user to the appropriate dashboard (`/admin`, `/recruiter`, or `/student`) based on the role in their session.
-- Implemented the student registration flow, including server-side validation of the email and password fields, automatic creation of the corresponding User record with the `student` role, and a redirect to the profile creation screen on successful signup.
-- Set up the initial layout structure for each of the three role-based dashboards, with role-specific sidebar navigation defined and the layout-level redirect logic in place to prevent cross-role access at the page level.
+- Continued the Training and Placement Portal build with the goal of completing the Student Profile module and the Administrator-facing Student Management module by the end of the week, since every downstream module (drives, applications, exports) depended on a working profile and verification flow.
+- Designed the Student Profile screen as a tabbed interface containing three sections (Personal, Academic, Professional), with each section grouping the fields that logically belonged together and a single shared submit button at the bottom of the form.
+- Implemented the profile creation flow for newly registered students, with server-side validation on every field including format checks on the CRN and URN, length checks on the phone number, range checks on the CGPA, and non-negative checks on the active backlog count.
+- Built the profile update flow that allowed students to edit their own profile through the same tabbed form, with the server-side handler distinguishing between the initial create and the subsequent update through the presence of an existing Student record linked to the User.
+- Implemented the verification-based profile lock mechanism on the server side, where the personal and academic fields became read-only at the API layer once the `isVerified` flag was set to true, while the professional fields (skills, resume link, summary, other links) remained editable at all times regardless of the verification status.
+- Designed the lock enforcement as a strict server-side check rather than a client-side restriction, meaning that even a request crafted directly through Postman or a tampered client would be rejected if it attempted to modify a locked field on a verified profile.
+- Built the Administrator Student Management screen as a paginated table with multi-criteria filtering on branch, passout year, and verification status, along with a free-text search on student name and CRN, reusing the table pagination pattern from the User Management work at 75Way.
+- Implemented the side-panel detail view that opened on row selection and displayed the complete student profile across the same three tabs as the student-facing form, with inline editing supported for unlocked fields and Verify and Unlock action buttons gated by the Administrator role.
+- Built the single-click verification action that set the `isVerified` flag to true on the selected student record, and the corresponding unlock action that reverted the flag to false, with both operations recorded with a timestamp for audit reconstruction.
+- Implemented the bulk unlock operation by passout year, which allowed the Administrator to set the `isVerified` flag to false on all students of a chosen passout year in a single transaction, designed specifically to support the start-of-session re-verification cycle.
+- Wrote a centralised permission helper at `lib/driveAccess.js` (extended later to cover drive operations) with an initial function for checking whether the current session belonged to an Administrator, replicating the centralisation pattern that had worked well on the Manage Business platform.
+- Tested the entire profile and verification flow with a small set of seed students inserted into the development database, walking through profile creation, verification, lock enforcement on personal fields, unlock, and bulk unlock to confirm correct behaviour at every step.
 
 ---
 
 ## Technologies Used
 
-- Next.js 16 with the App Router
+- Next.js 16 with the App Router (page routes and API route handlers)
 - React 18 with Server and Client Components
-- PostgreSQL (local instance for development)
-- Prisma ORM with the Prisma Schema Definition Language
-- NextAuth.js with credentials provider and JWT session strategy
-- bcrypt with 10 salt rounds for password hashing
-- Material UI and Tailwind CSS for the user interface
-- Visual Studio Code with the Prisma, ESLint, Prettier, and Tailwind CSS IntelliSense extensions
-- Git and GitHub for version control
+- PostgreSQL via the Prisma ORM
+- Prisma migrations for any schema adjustments made during the week
+- Custom permission helper module (`lib/driveAccess.js`)
+- Material UI for the tabbed form and the side-panel detail view
+- Tailwind CSS for spacing, alignment, and responsive behaviour
 - Postman for endpoint verification
+- Git and GitHub for version control
 
 ---
 
 ## Learnings
 
-- Realised that the requirements conversation with the TnP coordinator was the single most important input into the portal's design, because the coordinator's deep familiarity with the existing process surfaced operational details that would not have been visible from outside.
-- Understood the practical value of designing the relational schema on paper before writing any Prisma code, because the act of sketching exposed several constraint relationships (such as the composite primary key on Application) that would have been missed in a code-first approach.
-- Picked up the importance of choosing the soft-delete pattern early in the project rather than retrofitting it later, because every related query and every audit log would otherwise need to be revisited to handle the new pattern correctly.
-- Learned that Prisma's enum support combined with its auto-generated TypeScript types provides genuine compile-time safety for role-based logic, which directly translated into fewer category-of-bugs from misspelled role identifiers later in the codebase.
-- Got first-hand experience of how NextAuth.js's custom `authorize` callback is the right place to enforce authentication-specific business rules, because every login attempt across the entire portal flows through it exactly once.
-- Realised that role-based redirection at the layout level is a cleaner pattern than checking roles inside individual pages, because the layout is the natural choke point that all pages within a role's section share.
-- Observed that the experience of working on the custom NextAuth.js setup for the Manage Business platform at 75Way translated directly into the configuration of NextAuth.js for the TnP Portal, validating the cross-project value of the earlier ownership work.
+- Realised that the most important property of the profile lock mechanism is that it cannot be bypassed by the client, because a verified student profile is the foundation that every recruiter shortlist will later be built on, and any client-only restriction would defeat the purpose entirely.
+- Understood the practical importance of keeping a small set of professional fields (skills, resume link, summary) editable even on a verified profile, because these are exactly the fields that students legitimately need to update between drives without going through a full re-verification cycle.
+- Picked up the value of the side-panel detail view pattern over a separate detail page, because the side panel preserves the main page context (the list of students with active filters and pagination) while still showing the full detail of the selected record.
+- Learned that bulk operations like the bulk unlock by passout year need to be designed with clear scoping rather than as a generic mass update, because tying the operation explicitly to a passout year makes the consequences predictable and reviewable.
+- Got first-hand experience of how the centralised permission helper pattern, which had proven its value on the Manage Business platform, translated cleanly to the TnP Portal, validating that the same design principle applies regardless of the framework or stack.
+- Realised that seeding a small set of fixture students into the development database early in the module work is a small investment that pays back many times over, because every subsequent UI iteration can be tested against realistic data rather than empty states.
+- Observed that the tabbed form pattern is far more user-friendly for a multi-section profile than a single long scrolling form, because it reduces visual overload and lets the user focus on one section at a time without losing the unsaved data in the others.

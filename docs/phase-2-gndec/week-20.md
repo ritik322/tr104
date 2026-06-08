@@ -1,4 +1,4 @@
-# Week 20 — Student Profile and Administrator Student Management
+# Week 20 — Company, Drive, and Round Management
 
 **Dates:** 18 May – 22 May 2026
 **Location:** GNDEC Training and Placement Cell, Ludhiana
@@ -8,18 +8,18 @@
 
 ## Tasks Done
 
-- Continued the Training and Placement Portal build with the goal of completing the Student Profile module and the Administrator-facing Student Management module by the end of the week, since every downstream module (drives, applications, exports) depended on a working profile and verification flow.
-- Designed the Student Profile screen as a tabbed interface containing three sections (Personal, Academic, Professional), with each section grouping the fields that logically belonged together and a single shared submit button at the bottom of the form.
-- Implemented the profile creation flow for newly registered students, with server-side validation on every field including format checks on the CRN and URN, length checks on the phone number, range checks on the CGPA, and non-negative checks on the active backlog count.
-- Built the profile update flow that allowed students to edit their own profile through the same tabbed form, with the server-side handler distinguishing between the initial create and the subsequent update through the presence of an existing Student record linked to the User.
-- Implemented the verification-based profile lock mechanism on the server side, where the personal and academic fields became read-only at the API layer once the `isVerified` flag was set to true, while the professional fields (skills, resume link, summary, other links) remained editable at all times regardless of the verification status.
-- Designed the lock enforcement as a strict server-side check rather than a client-side restriction, meaning that even a request crafted directly through Postman or a tampered client would be rejected if it attempted to modify a locked field on a verified profile.
-- Built the Administrator Student Management screen as a paginated table with multi-criteria filtering on branch, passout year, and verification status, along with a free-text search on student name and CRN, reusing the table pagination pattern from the User Management work at 75Way.
-- Implemented the side-panel detail view that opened on row selection and displayed the complete student profile across the same three tabs as the student-facing form, with inline editing supported for unlocked fields and Verify and Unlock action buttons gated by the Administrator role.
-- Built the single-click verification action that set the `isVerified` flag to true on the selected student record, and the corresponding unlock action that reverted the flag to false, with both operations recorded with a timestamp for audit reconstruction.
-- Implemented the bulk unlock operation by passout year, which allowed the Administrator to set the `isVerified` flag to false on all students of a chosen passout year in a single transaction, designed specifically to support the start-of-session re-verification cycle.
-- Wrote a centralised permission helper at `lib/driveAccess.js` (extended later to cover drive operations) with an initial function for checking whether the current session belonged to an Administrator, replicating the centralisation pattern that had worked well on the Manage Business platform.
-- Tested the entire profile and verification flow with a small set of seed students inserted into the development database, walking through profile creation, verification, lock enforcement on personal fields, unlock, and bulk unlock to confirm correct behaviour at every step.
+- Continued the Portal build by shifting focus from student-side work to the Administrator-facing Company, Drive, and Round Management modules, which together form the supply side of the placement process.
+- Built the Company Management module with a paginated company list, search by name, and a create-company form that captured the company name, the recruiter email, and an initial password for the recruiter account.
+- Implemented the company creation flow as a single Prisma transaction that created both the Company record and the linked recruiter User record atomically, ensuring that a failure on either side rolled back the other and avoided orphan records.
+- Built the company edit flow that allowed the Administrator to update the company details, and the soft-delete flow that set a `deletedAt` timestamp on the Company record with a safety check that prevented deletion of any company that had at least one linked drive.
+- Built the Drive Management module with a paginated drive list grouped by lifecycle status (open, in progress, completed), and a create-drive form that captured the drive title, description, eligible branches as a multi-select, passout year, optional minimum CGPA, optional maximum backlog count, and the application deadline.
+- Implemented the create-drive flow with a key behaviour built in from the start: on successful drive creation, the server automatically inserted two system rounds into the Round table for the new drive, namely Round 0 (Applied) and Round 999 (Selected), wrapped in the same Prisma transaction as the drive insertion.
+- Built the drive edit flow that allowed the Administrator to update the eligibility criteria, the deadline, and the lifecycle status, with the status field exposed as a dropdown limited to the three allowed values.
+- Built the Round Management module within the drive detail page, supporting the creation of custom rounds with round numbers between 1 and 998 and free-text round names such as "Aptitude Test", "Technical Interview", and "HR Round", arranged in the UI in chronological order based on round number.
+- Implemented strict server-side protection on the system rounds (Round 0 and Round 999), so that any attempt to edit or delete a round with `roundNumber = 0` or `roundNumber = 999` was rejected at the API layer with a clear error message, regardless of the user's role.
+- Extended the centralised permission helper at `lib/driveAccess.js` with role-aware checks for the drive, round, and company endpoints, replacing inline role checks across the API routes with explicit calls to the helper.
+- Built the read-side optimisations on the drive list query, including indexed lookups on `companyId` and `passoutYear`, selective field fetching to reduce the response payload, and an eager-load of the linked company name to avoid an additional round trip from the frontend.
+- Tested the full Company-Drive-Round lifecycle end to end with a set of seeded data, including the creation of a company, the creation of a drive under that company, the auto-creation of the two system rounds, the addition of three custom rounds, the lifecycle status transitions, and the attempted deletion of a system round (correctly rejected).
 
 ---
 
@@ -28,10 +28,10 @@
 - Next.js 16 with the App Router (page routes and API route handlers)
 - React 18 with Server and Client Components
 - PostgreSQL via the Prisma ORM
-- Prisma migrations for any schema adjustments made during the week
+- Prisma transactions for the atomic Company-and-User and Drive-and-system-rounds creation flows
 - Custom permission helper module (`lib/driveAccess.js`)
-- Material UI for the tabbed form and the side-panel detail view
-- Tailwind CSS for spacing, alignment, and responsive behaviour
+- Material UI for the forms, multi-select inputs, and modal dialogs
+- Tailwind CSS for layout and responsive behaviour
 - Postman for endpoint verification
 - Git and GitHub for version control
 
@@ -39,10 +39,10 @@
 
 ## Learnings
 
-- Realised that the most important property of the profile lock mechanism is that it cannot be bypassed by the client, because a verified student profile is the foundation that every recruiter shortlist will later be built on, and any client-only restriction would defeat the purpose entirely.
-- Understood the practical importance of keeping a small set of professional fields (skills, resume link, summary) editable even on a verified profile, because these are exactly the fields that students legitimately need to update between drives without going through a full re-verification cycle.
-- Picked up the value of the side-panel detail view pattern over a separate detail page, because the side panel preserves the main page context (the list of students with active filters and pagination) while still showing the full detail of the selected record.
-- Learned that bulk operations like the bulk unlock by passout year need to be designed with clear scoping rather than as a generic mass update, because tying the operation explicitly to a passout year makes the consequences predictable and reviewable.
-- Got first-hand experience of how the centralised permission helper pattern, which had proven its value on the Manage Business platform, translated cleanly to the TnP Portal, validating that the same design principle applies regardless of the framework or stack.
-- Realised that seeding a small set of fixture students into the development database early in the module work is a small investment that pays back many times over, because every subsequent UI iteration can be tested against realistic data rather than empty states.
-- Observed that the tabbed form pattern is far more user-friendly for a multi-section profile than a single long scrolling form, because it reduces visual overload and lets the user focus on one section at a time without losing the unsaved data in the others.
+- Realised that wrapping the Company-and-User creation in a single Prisma transaction was not a premature optimisation but a correctness requirement, because a failure between the two inserts in a non-transactional flow would have left an unusable orphan record on one side or the other.
+- Understood the practical importance of auto-creating the two system rounds at drive creation time, because every downstream feature (applications going to Round 0, the export filter starting from the round dropdown, the round-based pagination on applicants) assumed their existence and would have to handle a missing-system-round case otherwise.
+- Picked up the value of representing the system rounds through reserved numeric values (0 and 999) rather than a separate boolean flag or table, because the reserved-number approach kept the Round table schema uniform and made the system-round protection check a simple numeric comparison.
+- Learned that strict server-side rejection of edits and deletes on system rounds, with a clear error message, is significantly more reliable than relying on the client to hide the affected buttons, because any tampered or alternative client could otherwise reach the underlying endpoints unimpeded.
+- Got first-hand experience of how the centralised permission helper continued to pay back as more modules were added, because each new endpoint required only a single call to the helper rather than its own role-checking logic, which materially reduced the surface area for authorisation bugs.
+- Realised that the safety check preventing deletion of companies with linked drives is exactly the kind of small constraint that prevents large operational accidents, because the alternative (cascading deletion of the linked drives) would silently destroy historical placement records.
+- Observed that the soft-delete pattern continued to feel right as it was applied to companies, because preserving deleted records (rather than hard deleting them) ensured that audit logs and historical drive references would never resolve to a missing parent.

@@ -1,5 +1,5 @@
 site_name: Industrial Training Daily Diary
-site_description: Week-by-week record of six months of industrial training (Jan–Jun 2026)
+site_description: Week-by-week record of five months of industrial training (Jan–Jun 2026)
 site_author: Ritik Mehta
 site_url: https://ritik322.github.io/tr104/
 copyright: Copyright &copy; 2026 Ritik Mehta
@@ -94,9 +94,9 @@ nav:
       - Week 13: phase-1-75way/week-13.md
       - Week 14: phase-1-75way/week-14.md
       - Week 15: phase-1-75way/week-15.md
-      - Week 16: phase-1-75way/week-16.md
   - GNDEC TnP Cell:
       - Overview: phase-2-gndec/overview.md
+      - Week 16: phase-2-gndec/week-16.md
       - Week 17: phase-2-gndec/week-17.md
       - Week 18: phase-2-gndec/week-18.md
       - Week 19: phase-2-gndec/week-19.md
