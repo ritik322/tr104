@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Week-by-week record of six months of industrial training (Jan–Jun 2026)">
+        <meta name="description" content="Week-by-week record of five months of industrial training (Jan–Jun 2026)">
       
       
         <meta name="author" content="Ritik Mehta">
@@ -18,7 +18,7 @@
         <link rel="prev" href="../week-14/">
       
       
-        <link rel="next" href="../week-16/">
+        <link rel="next" href="../../phase-2-gndec/overview/">
       
       
         
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#week-15-activity-logs-and-cross-module-integration" class="md-skip">
+        <a href="#week-15-final-handover-and-internship-wrap-up" class="md-skip">
           Skip to content
         </a>
       
@@ -421,8 +421,6 @@
   
     
     
-      
-        
       
         
       
@@ -1032,34 +1030,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../week-16/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Week 16
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1075,6 +1045,8 @@
   
     
     
+      
+        
       
         
       
@@ -1152,6 +1124,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phase-2-gndec/week-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 16
   
 
     
@@ -1419,25 +1419,25 @@
   
 
 
-<h1 id="week-15-activity-logs-and-cross-module-integration">Week 15 — Activity Logs and Cross-Module Integration<a class="headerlink" href="#week-15-activity-logs-and-cross-module-integration" title="Permanent link">&para;</a></h1>
-<p><strong>Dates:</strong> 13 April – 17 April 2026
+<h1 id="week-15-final-handover-and-internship-wrap-up">Week 15 — Final Handover and Internship Wrap-up<a class="headerlink" href="#week-15-final-handover-and-internship-wrap-up" title="Permanent link">&para;</a></h1>
+<p><strong>Dates:</strong> 13 April – 15 April 2026
 <strong>Location:</strong> 75Way Technologies, Mohali
 <strong>Project:</strong> Manage Business</p>
 <hr />
 <h2 id="tasks-done">Tasks Done<a class="headerlink" href="#tasks-done" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Shifted focus for the week from owned modules to contributing across the Activity Logs module, which was primarily owned by another team member but required several integration touch-points with the Access Control and Subscription modules built earlier.</li>
-<li>Reviewed the existing Activity Logs collection and the helper utility used by other modules to record audit entries, and understood the standard log shape consisting of actor, action key, target resource, project context, and timestamp.</li>
-<li>Added structured Activity Log entries from the Subscription module for every lifecycle event of a subscription, including creation, scope update, expiry adjustment, and revocation, with the structured access scope recorded in the log payload for full traceability.</li>
-<li>Extended the Activity Logs viewer screen with two new filter dropdowns for filtering by Subscription-related actions and for filtering by the granter project, both of which were natural extensions of the existing filter interface.</li>
-<li>Worked with the developer who owned the Activity Logs module to agree on a stable set of action key constants used across the platform, and consolidated all the duplicated string literals into a single shared constants file imported by every module that recorded logs.</li>
-<li>Picked up a small ticket on the Authentication module to record login and signup events into the Activity Logs collection consistently, since the existing implementation only recorded one of the two events.</li>
-<li>Contributed code review comments on three pull requests raised by other team members during the week, including suggestions for tighter validation, clearer error messages, and one case where a new endpoint had not been wired through the Access Control helper.</li>
-<li>Spent two days on end-to-end integration testing across the User Management, Access Control, Subscription, and Activity Logs modules, walking through realistic administrator workflows to confirm that data flowed correctly between modules and that audit entries were created at every expected step.</li>
-<li>Found and fixed two small bugs during integration testing, one where a soft-deleted user remained visible in the autocomplete on the subscription create flow, and another where revoking a subscription did not invalidate the cached permission state for the affected user.</li>
-<li>Helped the team prepare a short demo for the client at the end of the week showing the complete delegation flow, the admin role management screen, and the activity logs view filtered by recent subscription changes.</li>
-<li>Joined the demo call along with the project lead and the senior developer, presented the Subscription module work, walked the client through the delegation API and the safeguards built into it, and answered the client's questions on extensibility.</li>
-<li>Captured the client's feedback from the demo and added the requested follow-up items to the team's backlog for the final sprint, which included a richer audit log filter and an export-to-CSV option for the activity log screen.</li>
+<li>Entered the final and shortened week of the internship at 75Way Technologies with the goal of completing the follow-up items from the previous week's work, freezing the codebase for handover, and finishing the personal exit formalities within the available three working days.</li>
+<li>Picked up the remaining backlog items raised by the client, namely a richer filter on the Activity Logs viewer and an export-to-CSV option for the activity log screen, both scoped tightly to fit within the wrap-up window.</li>
+<li>Implemented the richer Activity Logs filter, adding date-range filtering, multi-select filtering on the action key, and a free-text search across the target resource field, all wired through the shared filter component already used elsewhere in the platform.</li>
+<li>Built the export-to-CSV option using a small server-side helper that streamed the matching rows directly to the response without holding the entire result set in memory, keeping the export responsive even on larger date ranges.</li>
+<li>Wrote a short module-level README for the Subscription module summarising the schema, the endpoint surface, the inter-project delegation flow, and the safeguards built into the design, intended as the primary reference for whoever maintained the module after handover.</li>
+<li>Updated the in-repo design notes for the Access Control module with the integration points added during the Subscription and Activity Logs work, so that the documentation remained consistent with the current state of the codebase.</li>
+<li>Walked through the Subscription and Access Control modules in detail with the project lead during a recorded handover session, covering the schema decisions, the helper utility, the delegation flow, and the known limitations left for future iterations.</li>
+<li>Walked through the same modules with the other two team members in a separate informal session, focusing on day-to-day operations of the code so that they could continue iterating on the module after the internship ended.</li>
+<li>Performed a final round of manual regression testing across the platform, walking through the major administrator workflows one last time to confirm that no regressions had been introduced by the final week's changes.</li>
+<li>Raised the final pull request of the internship covering the activity log filter and CSV export, got it reviewed and merged by the project lead, and confirmed that the staging deployment reflected the changes correctly.</li>
+<li>Completed the personal exit formalities including the return of the workstation, the deactivation of the company accounts, the collection of the internship completion certificate, and the closing conversation with the HR team.</li>
+<li>Attended an informal farewell with the project lead, the senior developer, and the two co-interns on the last day, marking the end of the industrial internship at 75Way Technologies, Mohali.</li>
 </ul>
 <hr />
 <h2 id="technologies-used">Technologies Used<a class="headerlink" href="#technologies-used" title="Permanent link">&para;</a></h2>
@@ -1445,23 +1445,23 @@
 <li>Next.js (App Router) with API route handlers</li>
 <li>React 18 with functional components and hooks</li>
 <li>MongoDB via the Mongoose ODM</li>
-<li>Activity Logs collection with shared action key constants</li>
-<li>Custom Access Control helper module (<code>lib/access.js</code>)</li>
+<li>Custom server-side CSV streaming helper</li>
 <li>Tailwind CSS for the admin UI</li>
+<li>Markdown for module READMEs and design notes</li>
 <li>Postman for endpoint verification</li>
 <li>Git feature branches and GitHub pull requests</li>
-<li>Browser-based screen sharing for the client demo</li>
+<li>Staging deployment for final verification</li>
 </ul>
 <hr />
 <h2 id="learnings">Learnings<a class="headerlink" href="#learnings" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Realised that contributing across a module owned by someone else is a different exercise from owning a module, because the priority shifts to respecting existing conventions rather than imposing new ones.</li>
-<li>Understood the practical importance of consolidating duplicated string literals into a single constants file, because every duplicated literal in a logging system eventually leads to a subtle inconsistency that is painful to debug across collections of audit entries.</li>
-<li>Picked up the value of explicit end-to-end integration testing as a planned activity at the end of a development cycle, because individual modules can each pass their own checks while still failing to cooperate correctly at the boundary points.</li>
-<li>Learned that the second category of bugs found during integration testing is almost always around cache invalidation across modules, which mirrors the well-known observation that cache invalidation is one of the hardest problems in software.</li>
-<li>Got first-hand experience of how meaningful a code review comment becomes when it is grounded in an architectural principle (such as the rule that all routes must use the Access Control helper) rather than a stylistic preference.</li>
-<li>Realised that participating in a client demo is a fundamentally different experience from the development cycle, because the client's questions reveal which features they consider valuable and which assumptions they had made differently from the team.</li>
-<li>Observed that the most useful preparation for a client demo is not the polish of the slides but the team's ability to handle unexpected questions confidently, which depends entirely on the team's depth of familiarity with the code.</li>
+<li>Realised that the final days of an internship are best treated as a separate phase of work focused on closure rather than new feature development, because the value of a smooth handover often exceeds the value of one more shipped feature.</li>
+<li>Understood the practical importance of writing module-level READMEs at the end of an ownership cycle, because the developer leaving the module is the one with the clearest mental model of its design and is therefore the best person to capture that knowledge in writing.</li>
+<li>Picked up the technique of streaming responses for export endpoints rather than building the full payload in memory, because the difference is invisible at small data sizes but becomes the deciding factor between a working and a broken export at larger sizes.</li>
+<li>Learned that a recorded handover session combined with an informal walkthrough with peers is a more effective knowledge transfer than either alone, because the recorded session captures the formal design while the informal walkthrough surfaces the day-to-day tacit knowledge.</li>
+<li>Got first-hand experience of how an internship concludes when the work has been carried out genuinely, namely with a clear sense of the modules owned, the contributions made, and the gaps that remained for the next iteration.</li>
+<li>Realised that the relationships built with the project lead, the senior developer, and the co-interns over more than three months are themselves a valuable outcome of the internship, independent of the code shipped.</li>
+<li>Observed that the multi-stack training in the first two months, although it occasionally felt disconnected from the final project work, ended up being directly useful because the breadth of exposure shaped how design decisions were considered during the project phase.</li>
 </ul>
 
 
@@ -1515,13 +1515,13 @@
         
         
           
-          <a href="../week-16/" class="md-footer__link md-footer__link--next" aria-label="Next: Week 16">
+          <a href="../../phase-2-gndec/overview/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Week 16
+                Overview
               </div>
             </div>
             <div class="md-footer__button md-icon">

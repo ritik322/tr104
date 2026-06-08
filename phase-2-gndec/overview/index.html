@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Week-by-week record of six months of industrial training (Jan–Jun 2026)">
+        <meta name="description" content="Week-by-week record of five months of industrial training (Jan–Jun 2026)">
       
       
         <meta name="author" content="Ritik Mehta">
@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://ritik322.github.io/tr104/phase-2-gndec/overview/">
       
       
-        <link rel="prev" href="../../phase-1-75way/week-16/">
+        <link rel="prev" href="../../phase-1-75way/week-15/">
       
       
-        <link rel="next" href="../week-17/">
+        <link rel="next" href="../week-16/">
       
       
         
@@ -419,8 +419,6 @@
   
     
     
-      
-        
       
         
       
@@ -949,34 +947,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../phase-1-75way/week-16/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Week 16
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -994,6 +964,8 @@
   
     
     
+      
+        
       
         
       
@@ -1136,10 +1108,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#training-letter-management-plugin-weeks-1718" class="md-nav__link">
+  <a href="#training-letter-management-plugin-weeks-1617" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Training Letter Management Plugin (Weeks 17–18)
+        Training Letter Management Plugin (Weeks 16–17)
       
     </span>
   </a>
@@ -1147,10 +1119,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#training-and-placement-portal-weeks-1922" class="md-nav__link">
+  <a href="#training-and-placement-portal-weeks-1822" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Training and Placement Portal (Weeks 19–22)
+        Training and Placement Portal (Weeks 18–22)
       
     </span>
   </a>
@@ -1205,6 +1177,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../week-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 16
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1424,10 +1424,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#training-letter-management-plugin-weeks-1718" class="md-nav__link">
+  <a href="#training-letter-management-plugin-weeks-1617" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Training Letter Management Plugin (Weeks 17–18)
+        Training Letter Management Plugin (Weeks 16–17)
       
     </span>
   </a>
@@ -1435,10 +1435,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#training-and-placement-portal-weeks-1922" class="md-nav__link">
+  <a href="#training-and-placement-portal-weeks-1822" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Training and Placement Portal (Weeks 19–22)
+        Training and Placement Portal (Weeks 18–22)
       
     </span>
   </a>
@@ -1510,20 +1510,19 @@
 
 
 <h1 id="gndec-tnp-cell-ludhiana">GNDEC TnP Cell, Ludhiana<a class="headerlink" href="#gndec-tnp-cell-ludhiana" title="Permanent link">&para;</a></h1>
-<p><strong>Duration:</strong> 27 April 2026 – 5 June 2026 (~6 weeks)
+<p><strong>Duration:</strong> 20 April 2026 – 5 June 2026 (~7 weeks)
 <strong>Location:</strong> Training and Placement Cell, Guru Nanak Dev Engineering College, Ludhiana
-<strong>Role:</strong> Project Trainee
 <strong>Development Model:</strong> Iterative and Incremental</p>
 <hr />
 <h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h2>
-<p>The final six weeks of the training period were spent on campus at the GNDEC Training and Placement Cell, delivering two distinct software systems that directly address long-standing manual workflows of the cell.</p>
-<h3 id="training-letter-management-plugin-weeks-1718">Training Letter Management Plugin (Weeks 17–18)<a class="headerlink" href="#training-letter-management-plugin-weeks-1718" title="Permanent link">&para;</a></h3>
+<p>The final seven weeks of the training period were spent on campus at the GNDEC Training and Placement Cell, delivering two distinct software systems that directly address long-standing manual workflows of the cell.</p>
+<h3 id="training-letter-management-plugin-weeks-1617">Training Letter Management Plugin (Weeks 16–17)<a class="headerlink" href="#training-letter-management-plugin-weeks-1617" title="Permanent link">&para;</a></h3>
 <p>The first two weeks at GNDEC were dedicated to the development and deployment of the <strong>Training Letter Management Plugin</strong> (<code>local_training_letter</code>), a custom Moodle local plugin that digitizes the industrial training letter application, approval, and verification workflow.</p>
 <p>The plugin replaces a previously paper-based process that involved physical handover of application forms between students, departments, and the TnP cell. It is built directly into the existing GNDEC Moodle Learning Management System and integrates with Moodle's native authentication, File API, and form rendering systems.</p>
 <p>The plugin supports four user roles (Student, Teacher, Manager, Site Admin) and implements a dual-approval state machine governing both the initial training request and the subsequent confirmation letter lifecycle. Reference numbers are auto-generated in the format <code>GNDEC/[YEAR]/[ID]</code> upon teacher approval, and file access is gated through a strict security gatekeeper function.</p>
 <p><strong>Technology Stack:</strong> PHP 8, MySQL via Moodle's <code>$DB</code> abstraction layer, Moodle XMLDB schema definition, Moodle Form API, Moodle File API, HTML and CSS Grid for responsive layouts.</p>
-<h3 id="training-and-placement-portal-weeks-1922">Training and Placement Portal (Weeks 19–22)<a class="headerlink" href="#training-and-placement-portal-weeks-1922" title="Permanent link">&para;</a></h3>
-<p>The remaining four weeks were dedicated to the <strong>Training and Placement Portal</strong>, the primary deliverable of the on-campus phase. The portal is a full-stack web application that replaces the existing manual, Google Forms-based placement workflow with a single integrated, role-based, database-driven platform.</p>
+<h3 id="training-and-placement-portal-weeks-1822">Training and Placement Portal (Weeks 18–22)<a class="headerlink" href="#training-and-placement-portal-weeks-1822" title="Permanent link">&para;</a></h3>
+<p>The remaining five weeks were dedicated to the <strong>Training and Placement Portal</strong>, the primary deliverable of the on-campus phase. The portal is a full-stack web application that replaces the existing manual, Google Forms-based placement workflow with a single integrated, role-based, database-driven platform.</p>
 <p>The portal serves three distinct user roles (Administrator, Recruiter, Student) each with a dedicated dashboard and role-scoped permissions enforced at the server level. Key functionality includes verification-based profile locking, eligibility-based automatic drive filtering, system-managed and custom rounds, round-by-round applicant tracking with bulk operations, and one-click Excel export of shortlists with round-based inclusive filtering.</p>
 <p>Development followed an iterative and incremental model, with each functional area (authentication, profile, drives, rounds, applications, export, recruiter module) built, tested, and refined as an independent vertical slice before integration into the larger system.</p>
 <p><strong>Technology Stack:</strong> Next.js 16 (App Router), React 18 with Server and Client Components, PostgreSQL, Prisma ORM, NextAuth.js with JWT-based session strategy, bcrypt (10 salt rounds), Material UI, Tailwind CSS, ExcelJS for server-side spreadsheet generation, Vercel for deployment, Neon for managed PostgreSQL hosting.</p>
@@ -1540,13 +1539,13 @@
 </thead>
 <tbody>
 <tr>
-<td>Week 17</td>
-<td>27 Apr – 1 May 2026</td>
+<td>Week 16</td>
+<td>20 Apr – 24 Apr 2026</td>
 <td>GNDEC onboarding and Training Letter Plugin kick-off</td>
 </tr>
 <tr>
-<td>Week 18</td>
-<td>4 May – 8 May 2026</td>
+<td>Week 17</td>
+<td>27 Apr – 1 May 2026</td>
 <td>Plugin completion and deployment</td>
 </tr>
 </tbody>
@@ -1562,24 +1561,29 @@
 </thead>
 <tbody>
 <tr>
+<td>Week 18</td>
+<td>4 May – 8 May 2026</td>
+<td>TnP Portal kick-off and schema design</td>
+</tr>
+<tr>
 <td>Week 19</td>
 <td>11 May – 15 May 2026</td>
-<td>TnP Portal kick-off and schema design</td>
+<td>Student profile and Administrator Student Management</td>
 </tr>
 <tr>
 <td>Week 20</td>
 <td>18 May – 22 May 2026</td>
-<td>Student profile and Administrator Student Management</td>
+<td>Company, Drive, and Round Management</td>
 </tr>
 <tr>
 <td>Week 21</td>
 <td>25 May – 29 May 2026</td>
-<td>Company, Drive, and Round Management</td>
+<td>Applicant tracking, Excel export, and Recruiter module</td>
 </tr>
 <tr>
 <td>Week 22</td>
 <td>1 Jun – 5 Jun 2026</td>
-<td>Final build, deployment, and training wrap-up</td>
+<td>Final testing, production deployment, and training wrap-up</td>
 </tr>
 </tbody>
 </table>
@@ -1619,7 +1623,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../phase-1-75way/week-16/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Week 16">
+          <a href="../../phase-1-75way/week-15/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Week 15">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1629,20 +1633,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Week 16
+                Week 15
               </div>
             </div>
           </a>
         
         
           
-          <a href="../week-17/" class="md-footer__link md-footer__link--next" aria-label="Next: Week 17">
+          <a href="../week-16/" class="md-footer__link md-footer__link--next" aria-label="Next: Week 16">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Week 17
+                Week 16
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Week-by-week record of six months of industrial training (Jan–Jun 2026)">
+        <meta name="description" content="Week-by-week record of five months of industrial training (Jan–Jun 2026)">
       
       
         <meta name="author" content="Ritik Mehta">
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#week-22-final-build-deployment-and-training-wrap-up" class="md-skip">
+        <a href="#week-22-final-testing-production-deployment-and-training-wrap-up" class="md-skip">
           Skip to content
         </a>
       
@@ -417,8 +417,6 @@
   
     
     
-      
-        
       
         
       
@@ -947,34 +945,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../phase-1-75way/week-16/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Week 16
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -992,6 +962,8 @@
   
     
     
+      
+        
       
         
       
@@ -1070,6 +1042,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../week-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week 16
   
 
     
@@ -1417,53 +1417,47 @@
   
 
 
-<h1 id="week-22-final-build-deployment-and-training-wrap-up">Week 22 — Final Build, Deployment, and Training Wrap-up<a class="headerlink" href="#week-22-final-build-deployment-and-training-wrap-up" title="Permanent link">&para;</a></h1>
+<h1 id="week-22-final-testing-production-deployment-and-training-wrap-up">Week 22 — Final Testing, Production Deployment, and Training Wrap-up<a class="headerlink" href="#week-22-final-testing-production-deployment-and-training-wrap-up" title="Permanent link">&para;</a></h1>
 <p><strong>Dates:</strong> 1 June – 5 June 2026
 <strong>Location:</strong> GNDEC Training and Placement Cell, Ludhiana
 <strong>Project:</strong> Training and Placement Portal</p>
 <hr />
 <h2 id="tasks-done">Tasks Done<a class="headerlink" href="#tasks-done" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Entered the final week of the six-month industrial training period with the goal of completing the remaining Portal modules, deploying the application to production, and wrapping up the on-campus training cleanly with the TnP coordinator.</li>
-<li>Built the Student-side Drive Browsing module with two tabs (Opportunities and My Applications) on the student dashboard, where the Opportunities tab displayed only drives whose branches list included the student's branch and whose passout year matched the student's passout year, performed entirely through a server-side filter on the drive list query.</li>
-<li>Implemented the drive detail page for the student side, including the full description, the eligibility summary, the deadline, and an Apply button whose state was evaluated in real time across five values (Profile Pending, Cannot Apply, Apply Now, Applied, Closed) based on the student's profile verification, the drive's lifecycle status, the deadline, and the existing application record.</li>
-<li>Built the application submission endpoint with the full server-side eligibility algorithm enforcing every business rule independently of the client UI, including authentication check, profile verification check, drive status check, deadline check, branch check, passout year check, CGPA threshold, backlog threshold, and the duplicate-application check (complemented by the composite primary key on the Application table as a second defence at the database level).</li>
-<li>Built the Applicant Tracking module on the drive detail page for the Administrator and Recruiter, with a paginated applicant list, per-applicant round dropdown for single-applicant movement, and a bulk-selection interface with checkboxes that allowed the movement of multiple applicants to the same target round in a single API call.</li>
-<li>Implemented the Excel Export module using ExcelJS for server-side spreadsheet generation, with a round filter dropdown on the export action that produced an inclusive filter (selecting Round 2 included all applicants currently in Round 2, Round 3, and beyond up to Selected) and a dynamic file name in the format <code>Company_Drive_Round_Date.xlsx</code>.</li>
-<li>Built the Recruiter module with a company-scoped dashboard that showed only the drives of the recruiter's own company, enforced at both the route level and the database query level so that a recruiter could not view or act on any other company's drives even through tampered requests.</li>
-<li>Restricted the Recruiter's available actions to drive lifecycle status changes, custom round CRUD within their own drives, and applicant round movement (single and bulk), while explicitly disallowing drive creation, drive deletion, student verification, and student unlock at the API layer.</li>
-<li>Built the read-only student detail side panel on the Recruiter pages, reusing the same side-panel component from the Administrator screens but with all action buttons hidden, so that recruiters could view applicant profiles without any ability to modify them.</li>
-<li>Performed two full days of end-to-end regression testing across all three roles, walking through the complete placement lifecycle with seeded data (company creation, drive creation, student verification, application submission, round movement, export, recruiter view), and fixed several small bugs surfaced during the testing.</li>
-<li>Deployed the application to production using Vercel for the Next.js serverless hosting and Neon for the managed PostgreSQL database, configured all environment variables and production secrets through the Vercel dashboard, and ran the initial Prisma migration on the production database.</li>
+<li>Entered the final week of the on-campus training at GNDEC with the goal of conducting full end-to-end regression testing, deploying the Portal to production, handing over the project to the TnP coordinator, and completing the personal exit formalities at the cell.</li>
+<li>Performed two full days of end-to-end regression testing across all three roles (Administrator, Recruiter, Student), walking through the complete placement lifecycle with seeded data including company creation, drive creation, student verification, application submission, round movement, Excel export, and recruiter-side workflows.</li>
+<li>Identified and fixed several small bugs surfaced during the integration testing, including a soft-deleted student remaining visible in the applicant autocomplete, a stale permission state after a profile unlock, and an inconsistent date format on one of the Excel export columns.</li>
+<li>Reviewed the codebase one final time to remove leftover debug logs, console statements, and commented-out experimental code, and confirmed that the production environment configuration was free of any local development overrides.</li>
+<li>Generated a final Prisma migration capturing the latest schema state, validated that the migration applied cleanly against a fresh database, and confirmed that all foreign keys and unique constraints were enforced as intended.</li>
+<li>Provisioned the production infrastructure by setting up a managed PostgreSQL instance on Neon with automatic backups enabled and a production project on Vercel with the appropriate environment variables configured through the dashboard.</li>
+<li>Deployed the application to production on Vercel, ran the initial Prisma migration on the production database, and seeded the initial set of administrator credentials and reference data such as branch lists and academic year defaults.</li>
+<li>Performed a smoke test on the production deployment, walking through registration, profile verification, drive creation, application submission, and Excel export end to end, and confirmed that the production behaviour matched the staging environment in every respect.</li>
 <li>Walked through the deployed production application with the TnP coordinator on the last working day, demonstrated the complete workflow for all three roles, handed over the administrator credentials and the codebase access, and discussed the items remaining on the future enhancement backlog (email notifications, analytics dashboard, multi-recruiter per company, bulk resume download).</li>
-<li>Completed the personal exit formalities at the cell, collected the training completion documentation, and marked the formal conclusion of the six-month industrial training period spanning the four-month internship at 75Way Technologies, Mohali and the six weeks at the GNDEC Training and Placement Cell.</li>
+<li>Prepared a short operational handover document covering routine tasks the TnP cell would need to perform on the live portal, including how to verify a profile, how to create a drive, how to move applicants between rounds, and how to export shortlists.</li>
+<li>Completed the personal exit formalities at the cell, collected the training completion documentation, and marked the formal conclusion of the five-month industrial training period spanning the ~3.5-month internship at 75Way Technologies, Mohali and the ~7-week on-campus training at the GNDEC Training and Placement Cell.</li>
 </ul>
 <hr />
 <h2 id="technologies-used">Technologies Used<a class="headerlink" href="#technologies-used" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Next.js 16 with the App Router (page routes and API route handlers)</li>
+<li>Next.js 16 with the App Router (production build)</li>
 <li>React 18 with Server and Client Components</li>
 <li>PostgreSQL via the Prisma ORM (production hosted on Neon)</li>
-<li>Custom permission helper module (<code>lib/driveAccess.js</code>) with company-scoped recruiter checks</li>
-<li>ExcelJS for server-side spreadsheet generation</li>
-<li>Material UI for forms, tables, dropdowns, and the side-panel component</li>
-<li>Tailwind CSS for layout, spacing, and responsive behaviour</li>
 <li>Vercel for production deployment of the Next.js application</li>
 <li>Neon for managed PostgreSQL hosting with automatic backups</li>
-<li>Postman for endpoint verification through the regression testing days</li>
-<li>Git and GitHub for version control through the final commit</li>
+<li>Postman for production smoke testing</li>
+<li>Markdown for the operational handover document</li>
+<li>Git and GitHub for the final commit and release tag</li>
 </ul>
 <hr />
 <h2 id="learnings">Learnings<a class="headerlink" href="#learnings" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Realised that the apply-to-drive eligibility algorithm was the single most consequential piece of business logic in the entire Portal, because it was the gate through which every application had to pass and any bug in it would either allow ineligible applications or block eligible ones, both of which would severely undermine trust in the system.</li>
-<li>Understood the practical value of the early-exit pattern in the eligibility algorithm, where the first failed check returned an error immediately, because it produced fast and predictable feedback for the student and avoided unnecessary downstream database queries on requests that were going to fail anyway.</li>
-<li>Picked up the deep value of the dual-layer duplicate-application protection (application-layer check plus database-level composite primary key), because no single layer alone would have been sufficient against concurrent submissions, and the database layer is the only place where the uniqueness invariant truly holds.</li>
-<li>Learned that the inclusive round-based export filter matched the operational mental model of the TnP coordinator perfectly, because the coordinator naturally thought of a Round 2 export as "all applicants who reached at least Round 2", which is exactly what the inclusive semantics produced.</li>
-<li>Got first-hand experience of how strict company-scoping at the database query level for recruiters is dramatically safer than scoping at the route level alone, because the database-level scope survives any future route refactor or accidental endpoint exposure.</li>
 <li>Realised that two full days of structured end-to-end regression testing surfaced bugs that no amount of module-level testing had caught, validating the principle that integration is its own activity and not a free side-effect of unit-level correctness.</li>
-<li>Observed that walking through the production deployment with the TnP coordinator on the last day was the right way to close the project, because it transferred not just the access credentials but also the confidence that the system was operational and ready for the upcoming placement season.</li>
-<li>Reflected at the end of the six months that the breadth of the multi-stack training at 75Way, the depth of the Manage Business platform ownership, and the on-campus delivery of two production systems at GNDEC together formed a more complete industrial training experience than any single project alone could have delivered.</li>
+<li>Understood the practical importance of removing leftover debug logs and commented-out code before a production deployment, because those traces of in-progress development reflect poorly on the maintainability of the codebase and can leak unintended internal information.</li>
+<li>Picked up the discipline of running a smoke test on the production environment immediately after deployment, because configuration differences between staging and production are exactly the kind of issue that only surfaces on live infrastructure with real environment variables.</li>
+<li>Learned that an operational handover document is far more valuable to the end user than a technical README, because the coordinator does not need to know how the code works internally but does need to know how to perform routine administrative tasks confidently.</li>
+<li>Got first-hand experience of how walking through the production deployment with the TnP coordinator on the last day was the right way to close the project, because it transferred not just the access credentials but also the confidence that the system was operational and ready for the upcoming placement season.</li>
+<li>Realised that the future enhancement backlog discussed at handover served as a natural bridge between the work delivered during the training period and the work that the cell or a future contributor could pick up later, making the project feel like a foundation rather than an ending.</li>
+<li>Reflected at the end of the five months that the breadth of the multi-stack training at 75Way, the depth of the Manage Business platform ownership, and the on-campus delivery of two production systems at GNDEC together formed a more complete industrial training experience than any single project alone could have delivered.</li>
 </ul>
 
 
